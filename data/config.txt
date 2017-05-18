@@ -1,1 +1,1 @@
-{prefix="."}
+{prefix=".",version="0",versionURL=""}
