@@ -1,1 +1,1 @@
-{prefix=".",version="0",versionURL="https://raw.githubusercontent.com/Uppernate/UppBot/master/data/version.txt"}
+{prefix=".",version="0",versionURL="https://cdn.rawgit.com/Uppernate/UppBot/master/data/version.txt",token="MjUyNDg3OTE1NTM4NjEyMjI0.C_-Xaw.VQ9OzTCcg2i4CBazRyynSxa8FBs"}
