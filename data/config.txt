@@ -1,1 +1,1 @@
-{prefix=".",version="0",versionURL=""}
+{prefix=".",version="0",versionURL="https://raw.githubusercontent.com/Uppernate/UppBot/master/data/version.txt"}
