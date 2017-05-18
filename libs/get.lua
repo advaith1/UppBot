@@ -6,7 +6,6 @@ function get.new(info)
   local req
   req = http.request(info.url, function(res)
     --p("on_connect", {status_code = res.status_code, headers = res.headers})
-    p("on_connect")
     res:on('data', function (chunk)
       info.data(chunk)
     end)

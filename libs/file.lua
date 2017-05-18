@@ -1,3 +1,5 @@
+require("./extra_table_functions.lua")
+
 local file = {}
 
 function file.load(f, path)
@@ -17,6 +19,7 @@ function file.load(f, path)
     newf.load = file.load
     newf.save = file.save
     newf.toTable = file.toTable
+    newf.saveFromTable = file.saveFromTable
     newf.path = f
     return newf
   end
@@ -36,6 +39,11 @@ function file.save(f, path)
   end
 end
 
+function file.saveFromTable(f, t, path)
+  f.content = table.tostring(t)
+  f:save(path)
+end
+
 function file.toTable(f)
   local func = loadstring("return "..f.content)
   if func ~= nil then return func() else return nil end
@@ -47,6 +55,7 @@ function file.new()
   f.load = file.load
   f.save = file.save
   f.toTable = file.toTable
+  f.saveFromTable = file.saveFromTable
   return f
 end
 

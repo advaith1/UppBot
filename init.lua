@@ -1,25 +1,54 @@
 --Libs and stuff
 local http = require("./libs/get.lua")
 local file = require("./libs/file.lua")
-local discordia = require('discordia')
-local client = discordia.Client()
 
-print("Starting UppBot...")
+print("Starting up...")
 
-local config = file.load("./UppBot/data/config.txt")
-config = config:toTable()
-print("Getting latest version number from "..config.versionURL.."...")
+--Files
+local files = {
+  config = file.load("./UppBot/data/config.txt")
+}
+
+--File Tables
+local config = files.config:toTable()
+
+print("Version: "..config.version)
+print("Checking updates...")
+
+local fetchedVersion = ""
 
 function init2()
   fetchedVersion = tonumber(fetchedVersion)
-  p(fetchedVersion)
+  --p("Latest version is '"..fetchedVersion.."', current version is '"..config.version.."'")
+  if fetchedVersion ~= nil and fetchedVersion > tonumber(config.version) then
+    local behind = fetchedVersion - tonumber(config.version)
+    local text = ""
+    if behind == 1 then text = "An update behind, " else text = behind.." updates behind, " end
+    print(text.."getting latest update...")
+  elseif fetchedVersion ~= nil and fetchedVersion <= tonumber(config.version) then
+    print("Up to date")
+  elseif fetchedVersion == nil then
+    print("Error: Was not able to get latest version, skipping...")
+  end
 end
 
-local fetchedVersion = ""
-http.new({
-  url = config.versionURL,
-  data = function(chunk) fetchedVersion = fetchedVersion..chunk end,
-ended = function() init2() end
-})
+function getVersion()
+  http.new({
+    url = config.versionURL,
+    data = function(chunk) fetchedVersion = fetchedVersion..chunk end,
+  ended = function() init2() end
+  })
+end
 
-client:run(config.token)
+if config.update == "true" then
+  print("If you don't want to check for updates, change 'update' in data/config.txt to false.")
+  getVersion()
+  config.update = "true-nonotify"
+elseif config.update == "true-nonotify" then
+  getVersion()
+elseif config.update == "false" then
+  print("Updates are disabled, if you want them again change 'update' in data/config.txt to true")
+  config.update = "false-nonotify"
+end
+
+files.config:saveFromTable(config)
