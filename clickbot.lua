@@ -65,9 +65,9 @@ end)
 client:on("memberJoin", function(member)
   if memberRoles[member.id] ~= nil then
     for _,v in pairs(memberRoles[member.id]) do
-      for _,r in pairs(member.guild.roles) do
+      for role in member.guild.roles do
         if role.id == v then
-          member:addRole(r)
+          member:addRole(role)
         end
       end
     end
@@ -76,7 +76,7 @@ end)
 
 client:on("memberLeave", function(member)
   memberRoles[member.id] = {}
-  for _,r in pairs(member.roles) do
+  for r in member.roles do
     table.insert(memberRoles[member.id], r.id)
   end
   files.memberRoles:saveFromTable(memberRoles)
