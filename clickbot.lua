@@ -22,7 +22,8 @@ end
 
 client:on("ready", function()
   print('Logged in as '.. client.user.username)
-  client:setGameName("type .help for my list of commands")
+  --client:setGameName("type .help for my list of commands")
+  client:setGameName(".help is not available atm")
 end)
 
 function commandExecute(message, command, args)
@@ -67,7 +68,7 @@ client:on("memberJoin", function(member)
     for _,v in pairs(memberRoles[member.id]) do
       for role in member.guild.roles do
         if role.id == v then
-          member:addRole(role)
+          member:addRoles(role)
         end
       end
     end
