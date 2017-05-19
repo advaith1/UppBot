@@ -20,7 +20,7 @@ function GetCommands(message, lookthrough)
         end
       end
     end
-    if #command.roles == 0 then
+    if command.roles == nil or #command.roles == 0 then
       canDo = true
     end
     if message.guild ~= nil then
