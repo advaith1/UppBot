@@ -22,8 +22,7 @@ end
 
 client:on("ready", function()
   print('Logged in as '.. client.user.username)
-  --client:setGameName("type .help for my list of commands")
-  client:setGameName(".help is not available atm")
+  client:setGameName("type .help for my list of commands")
 end)
 
 function commandExecute(message, command, args)
