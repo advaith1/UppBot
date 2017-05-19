@@ -1,0 +1,2 @@
+{ping={desc="Returns pong",args="nil",roles="",eg="ping",type="all"},
+thiscommandkicksyouandimnotjokingaboutthatsodonotrunit={desc="Don't ever run this command, ever.",args="nil",roles="",eg="...",type="guild"}}

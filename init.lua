@@ -1,6 +1,7 @@
 --Libs and stuff
 local http = require("./libs/get.lua")
 local file = require("./libs/file.lua")
+local timer = require("timer")
 
 print("Starting up...")
 
@@ -17,7 +18,16 @@ print("Checking updates...")
 
 local fetchedVersion = ""
 
-function init2()
+function init4() --Running
+  require("./"..config.toRun..".lua")
+end
+
+function init3() --Updating
+  print("Updating not yet implemented, skipping for now")
+  init4() --I don't know how to make updating for now, welp
+end
+
+function init2() --Checking if to update
   fetchedVersion = tonumber(fetchedVersion)
   --p("Latest version is '"..fetchedVersion.."', current version is '"..config.version.."'")
   if fetchedVersion ~= nil and fetchedVersion > tonumber(config.version) then
@@ -25,10 +35,13 @@ function init2()
     local text = ""
     if behind == 1 then text = "An update behind, " else text = behind.." updates behind, " end
     print(text.."getting latest update...")
+    init3()
   elseif fetchedVersion ~= nil and fetchedVersion <= tonumber(config.version) then
-    print("Up to date")
+    print("Up to date.")
+    init4()
   elseif fetchedVersion == nil then
     print("Error: Was not able to get latest version, skipping...")
+    init4()
   end
 end
 
