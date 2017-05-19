@@ -7,14 +7,14 @@ local cutter = require("./libs/cutter.lua")
 --Files
 local files = {
   config = file.load("./UppBot/data/config.txt"),
-  commands = file.load("./UppBot/data/commands.txt")
+  commands = file.load("./UppBot/data/commands.txt"),
+  memberRoles = file.load("./UppBot/data/memberInfo.txt")
 }
 
 --File Tables
 local config = files.config:toTable()
 local commands = files.commands:toTable()
-
-if commands == nil then commands = {} end
+local memberRoles = files.memberRoles:toTable()
 
 for i, v in pairs(commands) do
   v.main = require("./commands/"..i..".lua")
@@ -60,6 +60,26 @@ client:on("messageCreate", function(message)
     cmdContent[1] = cmdContent[1]:sub(#command+#commandPrefixed+2, #cmdContent[1])
     commandExecute(message, command, cmdContent)
   end
+end)
+
+client:on("memberJoin", function(member)
+  if memberRoles[member.id] ~= nil then
+    for _,v in pairs(memberRoles[member.id]) do
+      for _,r in pairs(member.guild.roles) do
+        if role.id == v then
+          member:addRole(r)
+        end
+      end
+    end
+  end
+end)
+
+client:on("memberLeave", function(member)
+  memberRoles[member.id] = {}
+  for _,r in pairs(member.roles) do
+    table.insert(memberRoles[member.id], r.id)
+  end
+  files.memberRoles:saveFromTable(memberRoles)
 end)
 
 p("Click Bot running")

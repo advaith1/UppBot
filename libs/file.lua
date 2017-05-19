@@ -46,7 +46,7 @@ end
 
 function file.toTable(f)
   local func = loadstring("return "..f.content)
-  if func ~= nil then return func() else return nil end
+  if func ~= nil then return func() else return {} end
 end
 
 function file.new()
