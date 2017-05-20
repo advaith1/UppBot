@@ -1,1 +1,1 @@
-{versionURL="https://cdn.rawgit.com/Uppernate/UppBot/master/data/version.txt",version="0",toRun="clickbot",prefixes={"."},token="Nope.",update="true-nonotify"}
+{update="true-nonotify",minVoteMemeCount=4,version="0",voteBanExpireTime=900,prefixes={"."},toRun="clickbot",token="Eh",versionURL="https://cdn.rawgit.com/Uppernate/UppBot/master/data/version.txt"}

@@ -1,0 +1,76 @@
+--[[
+  presumed defaults for stuff:
+    minVoteMemeCount is the amount of votes required to ban someone, defaults to 5
+    voteBanExpireTime is the time in seconds that a vote will take to expire, defaults to 900 (15 minutes)
+]]--
+
+local file = require("../libs/file.lua")
+config = file.load("./UppBot/data/config.txt"):toTable()
+
+--[[
+  structure:
+    key is id of voted user
+    value is a table of the IDs of users who have voted to ban said user, although it should be noted value[1] will always be the seconds since the epoch at which the vote was started
+]]--
+votes = {}
+
+function main(message, args)
+  --Detecting Mentioned Users and turning them into members
+  local members = {}
+  for users in message.mentionedUsers do
+    table.insert(members, users:getMembership(message.guild))
+  end
+  --Limiting members voted for
+  if #members == 0 then print("No users to vote ban to...") return end
+  if #members > 1 then print("Too much users voted for") return end
+  print(members[1].username)
+  local voted = members[1]
+
+  --Meeting author requirements
+  local allowed = false
+  for role in message.member.roles do
+    if role.name == "Clickers" then
+      allowed = true
+      break
+    end
+  end
+  if not allowed then
+    message.channel:sendMessage("You need to have the Clicker role to voteban users!")
+    return
+  end
+
+  --Meeting target requirements
+  if voted.roleCount > 0 then
+    message.channel:sendMessage("You can not voteban members with roles!")
+    return
+  end
+  print("Time for the main thing!")
+  --Main
+  for k,v in pairs(votes) do
+    if k == voted.id then
+      for _,m in pairs(v) do
+        if m == message.author.id then
+          message.channel:sendMessage("You can not vote to kick a user twice in one attempt!")
+          return
+        end
+      end
+      if #v < config.minVoteMemeCount + 1 then
+        message.channel:sendMessage("You have voted to ban " .. voted.name .. "! Your vote has been counted. " .. tostring((config.minVoteMemeCount + 1) - #v) .. " more votes are needed to ban " .. voted.name .. ".")
+        table.insert(v, m.id)
+      else
+        voted:sendMessage("Unfortunately, you have been votebanned in the Click Converse server! If you feel this ban was in error, please contact a moderator from the server to appeal.")
+        message.channel:sendMessage(voted.name .. " has been votebanned!")
+        voted:ban(message.guild)
+    print("[INFO] The vote to ban a user by the ID of " .. k .. " has gone through. User banned.")
+      end
+
+      return
+    end
+  end
+
+  table.insert(votes, voted.id, {os.time(), message.author.id})
+  message.channel:sendMessage("A voteban has started for " .. voted.name .. "! " .. tostring(config.minVoteMemeCount) .. " votes are required within " .. tostring(config.voteBanExpireTime / 60) .. " minutes or else the voteban will automatically expire!")
+
+end
+
+return main
