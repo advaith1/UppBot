@@ -54,9 +54,9 @@ function main(message, args)
     local entry = votes[member.id]
     if entry.ban == nil then entry.ban = {} end
     if entry.ban[message.member.id] == nil then
-      print("Making new entry...")
       entry.ban[message.member.id] = os.time()
       local vote = entry.ban[message.member.id]
+      p(vote)
       message.channel:sendMessage(message.member.username.." has voted to ban "..member.username)
     end
   end
