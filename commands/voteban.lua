@@ -35,19 +35,6 @@ function main(message, args)
   if #members == 0 then print("No users to vote ban to...") return end
   if #members > 1 then print("Too much users voted for") return end
 
-  -- Meeting author requirements
-  local allowed = false
-  for role in message.member.roles do
-    if role.name == "Clickers" then
-      allowed = true
-      break
-    end
-  end
-  if not allowed then
-    message.channel:sendMessage("You need to have the Clicker role to voteban users!")
-    return
-  end
-
   for _, member in pairs(members) do
     -- Meeting target requirements
     if member.roleCount > 0 then message.channel:sendMessage("You can not voteban members with roles!") break end
@@ -67,7 +54,7 @@ function main(message, args)
       table.insert( votes[member.id].ban, { id = message.member.id, time = os.time() } )
       p(message.member.id, votes[member.id].ban[#votes[member.id].ban], #votes[member.id].ban)
       if (config.minVotebanCount-#votes[member.id].ban) > 0 then
-        if firstVote == false then 
+        if firstVote == false then
           message.channel:sendMessage(message.member.mentionString .. " has voted to ban " .. member.username .. ". " .. (config.minVotebanCount-#votes[member.id].ban) .. " more votes are required.")
         end
       else
