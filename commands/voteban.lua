@@ -24,7 +24,7 @@ local votes = files.votes:toTable()
 ]]--
 
 function main(message, args)
-  --Removing expired votes
+  -- Removing expired votes
   for memberID, voteTypes in pairs(votes) do
     for voter, memVote in pairs(voteTypes.ban) do
       if os.time() - memVote.time >= config.voteBanExpireTime then
@@ -33,16 +33,16 @@ function main(message, args)
       end
     end
   end
-  --Detecting Mentioned Users and turning them into members
+  -- Detecting Mentioned Users and turning them into members
   local members = {}
   for users in message.mentionedUsers do
     table.insert(members, users:getMembership(message.guild))
   end
-  --Limiting members voted for
+  -- Limiting members voted for
   if #members == 0 then print("No users to vote ban to...") return end
   if #members > 1 then print("Too much users voted for") return end
 
-  --Meeting author requirements
+  -- Meeting author requirements
   local allowed = false
   for role in message.member.roles do
     if role.name == "Clickers" then
@@ -56,12 +56,12 @@ function main(message, args)
   end
 
   for _, member in pairs(members) do
-    --Meeting target requirements
+    -- Meeting target requirements
     if member.roleCount > 0 then message.channel:sendMessage("You can not voteban members with roles!") break end
-    --Starting main
+    -- Starting main
     if votes[member.id] == nil then
       votes[member.id] = {}
-      message.channel:sendMessage(message.member.mentionString.." has started a vote to ban "..member.mentionString.."! "..(config.minVotebanCount-1).." more votes are required.")
+      message.channel:sendMessage(message.member.mentionString .. " has started a vote to ban " .. member.mentionString .. "! " .. (config.minVotebanCount-1) .. " more votes are required.")
     end
     if votes[member.id].ban == nil then
       votes[member.id].ban = {}
@@ -69,16 +69,16 @@ function main(message, args)
     local unique = true
     for i, v in pairs(votes[member.id].ban) do if v.id == message.member.id then unique = false break end end
     if unique then
-      table.insert(votes[member.id].ban, {id=message.member.id, time=os.time()})
+      table.insert( votes[member.id].ban, { id = message.member.id, time = os.time() } )
       p(message.member.id, votes[member.id].ban[#votes[member.id].ban], #votes[member.id].ban)
-      message.channel:sendMessage(message.member.mentionString.." has voted to ban "..member.username..". "..(config.minVotebanCount-#votes[member.id].ban).." more votes are required.")
+      message.channel:sendMessage(message.member.mentionString .. " has voted to ban " .. member.username .. ". " .. (config.minVotebanCount-#votes[member.id].ban) .. " more votes are required.")
     else
-      message.channel:sendMessage(message.member.mentionString.." you have already voted for "..member.username)
+      message.channel:sendMessage(message.member.mentionString .. " you have already voted for " .. member.username)
     end
     if #votes[member.id].ban == config.minVotebanCount then
       member:sendMessage("Unfortunately, you have been votebanned in the Click Converse server! If you feel this ban was in error, please contact a moderator from the server to appeal e.g. Uppernate#2858.")
-      message.channel:sendMessage(member.username.." has been successfully voted to be banned from this server.")
-      print("INFO: "..member.username.." has been votebanned from the server.")
+      message.channel:sendMessage(member.username .. " has been successfully voted to be banned from this server.")
+      print("INFO: "..member.username .. " has been votebanned from the server.")
       member:ban(message.guild)
     end
   end
