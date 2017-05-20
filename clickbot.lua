@@ -50,10 +50,23 @@ function commandExecute(message, command, args)
   if message.guild == nil and commands[command].type == "guild" then return end
   if message.guild ~= nil and commands[command].type == "priv" then return end
 
-  -- Known command, executing
-  -- TODO: Role requirements
+  -- Checking if member has at least one required role
 
-  if commands[command].main ~= nil then
+  local gotRoles = false
+
+  if #commands[command].roles > 0 then
+    for id, roleName in pairs(commands[command].roles) do
+      local memberRole = message.member:hasRole(message.guild:getRole("name", roleName))
+      p(memberRole)
+      if memberRole then gotRoles = true break end
+    end
+  else
+    gotRoles = true
+  end
+
+    -- Known command, executing
+
+  if commands[command].main ~= nil and gotRoles == true then
     p(message.author.username.." ACCESSED", command, args)
     commands[command].main(message, args)
   else
