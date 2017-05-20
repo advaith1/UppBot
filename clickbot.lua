@@ -1,3 +1,12 @@
+--[[
+////////////////////////////////////////////////////
+
+                    Click Bot
+           For the Click Converse Server
+
+////////////////////////////////////////////////////
+]]
+
 local discordia = require('discordia')
 local client = discordia.Client()
 local ticker = require("./libs/ticker.lua")
