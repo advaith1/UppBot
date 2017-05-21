@@ -26,7 +26,7 @@ function GetCommands(message, lookthrough)
     if message.guild ~= nil then
       for _, roleName in pairs(command.roles) do
         if canDo == true then break end
-        for role in message.author.roles do
+        for role in message.member.roles do
           if role.name == roleName then
             canDo = true
             break
