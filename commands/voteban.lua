@@ -37,7 +37,7 @@ function main(message, args)
 
   for _, member in pairs(members) do
     -- Meeting target requirements
-    if member.roleCount > 0 then message.channel:sendMessage("You can not voteban members with roles!") break end
+    if member.hasRoles( message.guild:getRoles("name", "Clickers") ) == true then message.channel:sendMessage("You can not voteban Clickers!") break end
     -- Starting main
     local firstVote = false
     if votes[member.id] == nil then
