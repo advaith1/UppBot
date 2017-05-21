@@ -120,7 +120,7 @@ client:on("messageCreate", function(message)
   end
 
   -- Do nothing if no prefix was used ¯\_(ツ)_/¯ (jk we do something now)
-  if message.content:find("thanks") then
+  if message.content:lower():find("thanks") then
     local users = {}
     for user in message.mentionedUsers do
       doublecheckmemberinfo(user)
