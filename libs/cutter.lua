@@ -6,7 +6,7 @@ function cutter.cut(content, delimiter)
   local occurence = content:find(delimiter, index)
   local found = cut:match(delimiter)
   local results = {}
-  while occurence ~= nil and occurence > -1 do
+  while occurence ~= nil and occurence ~= nil do
     if found == nil then break end
     table.insert(results, content:sub(index, occurence - 1))
     cut = cut:sub(index+#found)

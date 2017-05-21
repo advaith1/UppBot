@@ -21,6 +21,7 @@ function main(message, args)
   local examples = file.load("./UppBot/data/examples.txt"):toTable()
   local scmd = cutter.cut(message.content, "%s+")
   table.remove(scmd, 1)
+  p(scmd)
   local accepted_search = {}
   for o, p in pairs(scmd) do
     if #accepted_search == 0 then
