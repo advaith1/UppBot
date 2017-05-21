@@ -37,7 +37,7 @@ function main(message, args)
 
   for _, member in pairs(members) do
     -- Meeting target requirements
-    if member.hasRoles( message.guild:getRoles("name", "Clickers") ) == true then message.channel:sendMessage("You can not voteban Clickers!") break end
+    if member:hasRole( message.guild:getRole("name", "Clickers")) == true then message.channel:sendMessage("You can not voteban Clickers!") break end
     -- Starting main
     local firstVote = false
     if votes[member.id] == nil then
@@ -52,7 +52,6 @@ function main(message, args)
     for i, v in pairs(votes[member.id].ban) do if v.id == message.member.id then unique = false break end end
     if unique then
       table.insert( votes[member.id].ban, { id = message.member.id, time = os.time() } )
-      p(message.member.id, votes[member.id].ban[#votes[member.id].ban], #votes[member.id].ban)
       if (config.minVotebanCount-#votes[member.id].ban) > 0 then
         if firstVote == false then
           message.channel:sendMessage(message.member.mentionString .. " has voted to ban " .. member.username .. ". " .. (config.minVotebanCount-#votes[member.id].ban) .. " more votes are required.")
