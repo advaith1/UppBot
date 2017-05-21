@@ -1,4 +1,9 @@
 {ping={desc="Returns pong.",args="nil",roles={},eg="ping",type="all"},
 help={desc="Gives you a list of commands you can execute.",args="<Optional Command Names>",roles={},eg="help",type="all"},
 voteban={desc="Vote a person out of this server.",args="<User Mention>",roles={},eg="voteban @User0000",type="guild"},
+thiscommandkicksyouandimnotjokingaboutthatsodonotrunit={desc="Don't ever run this command, ever.",args="nil",roles={},eg="...",type="guild"},
+extlist={desc="Gives links to extension lists.",args="nil",roles={},eg="extlist",type="all"},
+shaders={desc="Gives links to ClickStore Shaders page and Phi's shader list.",args="nil",roles={},eg="shaders",type="all"},
+voteban={desc="Vote a person out of this server.",args="<User Mention>",roles={"Clickers"},eg="voteban @User0000",type="guild"},
+devroom={desc="Gives you access to the Clickbot dev channel",args="nil",roles={},eg="devRoom",type="guild"},
 thiscommandkicksyouandimnotjokingaboutthatsodonotrunit={desc="Don't ever run this command, ever.",args="nil",roles={},eg="...",type="guild"}}
