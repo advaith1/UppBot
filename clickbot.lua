@@ -19,13 +19,13 @@ local cutter = require("./libs/cutter.lua") -- Cool delimiter thing I wrote
 local files = {
   config = file.load("./UppBot/data/config.txt"),
   commands = file.load("./UppBot/data/commands.txt"),
-  memberRoles = file.load("./UppBot/data/memberInfo.txt")
+  memberInfo = file.load("./UppBot/data/memberInfo.txt")
 }
 
 -- File Tables
 local config = files.config:toTable()
 local commands = files.commands:toTable()
-local memberRoles = files.memberRoles:toTable()
+local memberInfo = files.memberInfo:toTable()
 
 -- Loading in command .lua files
 for i, v in pairs(commands) do
@@ -38,8 +38,23 @@ client:on("ready", function()
   client:getChannel("315560822438887429"):sendMessage("Restarted.")
 end)
 
-function commandExecute(message, command, args)
+-- Double-check every user's memberinfo
+-- also this probably isn't top performance but who cares
+function doublecheckmemberinfo(user)
+  if memberInfo[user.id] == nil then
+    memberInfo[user.id] = {}
+  end
 
+  if memberInfo[user.id]["roles"] == nil then
+    memberInfo[user.id]["roles"] = {}
+  end
+
+  if memberInfo[user.id]["karma"] == nil then
+    memberInfo[user.id]["karma"] = 0
+  end
+end
+
+function commandExecute(message, command, args)
   -- Unknown command
   if commands[command] == nil then
     p(message.author.username.." ATTEMPTED", command, args)
@@ -78,6 +93,9 @@ end
 
 -- Main thing
 client:on("messageCreate", function(message)
+  -- Check senders's memberInfo
+  doublecheckmemberinfo(message.author)
+  
   -- Getting first word
   local nearest_space = message.content:find(" ")
   local command = nil
@@ -104,7 +122,26 @@ client:on("messageCreate", function(message)
     commandExecute(message, command, cmdContent) -- Forwarding the info to the function
   end
 
-  -- Do nothing if no prefix was used ¯\_(ツ)_/¯
+  -- Do nothing if no prefix was used ¯\_(ツ)_/¯ (jk we do something now)
+  if message.content:lower():find("thanks") then
+    local users = {}
+    for user in message.mentionedUsers do
+      doublecheckmemberinfo(user)
+      table.insert(users, user)
+    end
+
+    if #users > 0 then
+      local messageToSend = ""
+      for user in pairs(users) do
+        if message.author.id ~= user.id and not user.bot then
+          messageToSend = messageToSend + string.format("**%s** has given thanks to **%s**\n", message.author.name, user.name)
+          memberInfo[user.id]["karma"] = memberInfo[user.id]["karma"] + 1
+        end
+      end
+      files.memberInfo:saveFromTable(memberInfo)
+      message.channel:sendMessage(messageToSend)
+    end
+  end
 end)
 
 -- Reassigning roles
@@ -113,23 +150,24 @@ end)
 -- Fixes: Uppernate
 
 client:on("memberJoin", function(member)
-  if memberRoles[member.id] ~= nil then
-    for _,v in pairs(memberRoles[member.id]) do
-      for role in member.guild.roles do
-        if role.id == v then
-          member:addRoles(role)
-        end
+  doublecheckmemberinfo(member)
+
+  for _,v in pairs(memberInfo[member.id]["roles"]) do
+    for role in member.guild.roles do
+      if role.id == v then
+        member:addRoles(role)
       end
     end
   end
 end)
 
 client:on("memberLeave", function(member)
-  memberRoles[member.id] = {}
+  doublecheckmemberinfo(member)
+
   for r in member.roles do
-    table.insert(memberRoles[member.id], r.id)
+    table.insert(memberInfo[member.id]["roles"], r.id)
   end
-  files.memberRoles:saveFromTable(memberRoles)
+  files.memberInfo:saveFromTable(memberInfo)
 end)
 
 -- Reassigning roles end
