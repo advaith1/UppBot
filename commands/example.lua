@@ -17,9 +17,14 @@ function newEmbed(title, url, source)
   return embed
 end
 
+
+
 function main(message, args)
   local examples = file.load("./UppBot/data/examples.txt"):toTable()
-  local scmd = cutter.cut(message.content, "%s+")
+  local scmd = {}
+  for v in message.content:gmatch("%S+") do
+    table.insert(scmd, v)
+  end
   table.remove(scmd, 1)
   p(scmd)
   local accepted_search = {}

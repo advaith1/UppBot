@@ -35,6 +35,7 @@ end
 client:on("ready", function()
   print("Logged in as " .. client.user.username)
   client:setGameName("type .help for my list of commands")
+  client:getChannel("315560822438887429"):sendMessage("Restarted.")
 end)
 
 function commandExecute(message, command, args)
