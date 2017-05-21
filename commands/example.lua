@@ -1,4 +1,5 @@
-local file = require("..\\file.lua")
+local file = require("../libs/file.lua")
+local cutter = require("../libs/cutter.lua")
 local http = require('http')
 
 function newEmbed(title, url, source)
@@ -16,9 +17,9 @@ function newEmbed(title, url, source)
   return embed
 end
 
-function main(cmd, message)
-  local examples = file.load(".\\data\\examples.txt"):toTable()
-  local scmd = cmd
+function main(message, args)
+  local examples = file.load("./UppBot/data/examples.txt"):toTable()
+  local scmd = cutter.cut(message.content, "%s+")
   table.remove(scmd, 1)
   local accepted_search = {}
   for o, p in pairs(scmd) do

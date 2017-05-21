@@ -6,5 +6,5 @@ extlist={desc="Gives links to extension lists.",args="nil",roles={},eg="extlist"
 shaders={desc="Gives links to ClickStore Shaders page and Phi's shader list.",args="nil",roles={},eg="shaders",type="all"},
 voteban={desc="Vote a person out of this server.",args="<User Mention>",roles={"Clickers"},eg="voteban @User0000",type="guild"},
 devroom={desc="Gives you access to the Clickbot dev channel",args="nil",roles={},eg="devRoom",type="guild"},
-thiscommandkicksyouandimnotjokingaboutthatsodonotrunit={desc="Don't ever run this command, ever.",args="<Example name to search for>",roles={},eg="...",type="all"}}
+thiscommandkicksyouandimnotjokingaboutthatsodonotrunit={desc="Don't ever run this command, ever.",args="<Example name to search for>",roles={},eg="...",type="all"},
 example={desc="Gives a link to an example file",args="nil",roles={},eg="...",type="guild"}}
