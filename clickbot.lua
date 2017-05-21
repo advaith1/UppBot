@@ -93,6 +93,9 @@ end
 
 -- Main thing
 client:on("messageCreate", function(message)
+  -- Check senders's memberInfo
+  doublecheckmemberinfo(message.author)
+  
   -- Getting first word
   local nearest_space = message.content:find(" ")
   local command = nil
