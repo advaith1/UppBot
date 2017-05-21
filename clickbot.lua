@@ -3,7 +3,7 @@
 
                     Click Bot
            For the Click Converse Server
-              Version: Boop (0.1.0)
+            Version: I'm alive (0.1.0)
 
 ////////////////////////////////////////////////////
 ]]
