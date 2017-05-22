@@ -37,7 +37,9 @@ function main(message, args)
 
   for _, member in pairs(members) do
     -- Meeting target requirements
-    if member:hasRole( message.guild:getRole("name", "Clickers")) == true then message.channel:sendMessage("You can not voteban Clickers!") break end
+    if member:hasRole( message.guild:getRole("name", "Clickers")) == true then message.channel:sendMessage("You can not voteban Clickers!")
+    else if member:hasRole( message.guild:getRole("name", "Staff")) == true then message.channel:sendMessage("You can not voteban Staff!")
+    else if member:hasRole( message.guild:getRole("name", "Bots")) == true then message.channel:sendMessage("You can not voteban Bots!") break end
     -- Starting main
     local firstVote = false
     if votes[member.id] == nil then
