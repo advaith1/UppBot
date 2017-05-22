@@ -1,4 +1,5 @@
 function rule(message, args)
+  args[1] = tonumber(args[1])
   local ruleToSend
   if args[1] == 1 then
     ruleToSend = "Don't use swear words nor discuss non G-rated topics; keep it family friendly. Excessive use will be warned and / or banned temporarily / permanently."
