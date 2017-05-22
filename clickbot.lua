@@ -41,6 +41,8 @@ end)
 -- Double-check every user's memberinfo
 -- also this probably isn't top performance but who cares
 function doublecheckmemberinfo(user)
+  local oldInfo = memberInfo[user.id]
+
   if memberInfo[user.id] == nil then
     memberInfo[user.id] = {}
   end
@@ -51,6 +53,10 @@ function doublecheckmemberinfo(user)
 
   if memberInfo[user.id]["karma"] == nil then
     memberInfo[user.id]["karma"] = 0
+  end
+
+  if oldInfo ~= memberInfo[user.id] then
+    files.memberInfo:saveFromTable(memberInfo)
   end
 end
 
@@ -95,7 +101,7 @@ end
 client:on("messageCreate", function(message)
   -- Check senders's memberInfo
   doublecheckmemberinfo(message.author)
-  
+
   -- Getting first word
   local nearest_space = message.content:find(" ")
   local command = nil

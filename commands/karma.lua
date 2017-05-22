@@ -1,6 +1,31 @@
 local file = require("../libs/file.lua")
 local clickbot = require("../clickbot.lua")
-memberInfo = file.load("../UppBot/data/memberInfo.txt"):toTable()
+
+local files = {
+  memberInfo = file.load("./UppBot/data/memberInfo.txt")
+}
+
+local memberInfo = files.memberInfo:toTable()
+
+function doublecheckmemberinfo(user)
+  local oldInfo = memberInfo[user.id]
+
+  if memberInfo[user.id] == nil then
+    memberInfo[user.id] = {}
+  end
+
+  if memberInfo[user.id]["roles"] == nil then
+    memberInfo[user.id]["roles"] = {}
+  end
+
+  if memberInfo[user.id]["karma"] == nil then
+    memberInfo[user.id]["karma"] = 0
+  end
+
+  if oldInfo ~= memberInfo[user.id] then
+    files.memberInfo:saveFromTable(memberInfo)
+  end
+end
 
 function karma(message, args)
   local users = {}
