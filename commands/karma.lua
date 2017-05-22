@@ -1,12 +1,6 @@
 local file = require("../libs/file.lua")
 local clickbot = require("../clickbot.lua")
 
-local files = {
-  memberInfo = file.load("./UppBot/data/memberInfo.txt")
-}
-
-local memberInfo = files.memberInfo:toTable()
-
 function doublecheckmemberinfo(user)
   local oldInfo = memberInfo[user.id]
 
@@ -28,6 +22,7 @@ function doublecheckmemberinfo(user)
 end
 
 function karma(message, args)
+  local memberInfo = file.load("./UppBot/data/memberInfo.txt"):toTable()
   local users = {}
   for user in message.mentionedUsers do
       table.insert(users, user)

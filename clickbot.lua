@@ -41,8 +41,6 @@ end)
 -- Double-check every user's memberinfo
 -- also this probably isn't top performance but who cares
 function doublecheckmemberinfo(user)
-  local oldInfo = memberInfo[user.id]
-
   if memberInfo[user.id] == nil then
     memberInfo[user.id] = {}
   end
@@ -53,10 +51,6 @@ function doublecheckmemberinfo(user)
 
   if memberInfo[user.id]["karma"] == nil then
     memberInfo[user.id]["karma"] = 0
-  end
-
-  if oldInfo ~= memberInfo[user.id] then
-    files.memberInfo:saveFromTable(memberInfo)
   end
 end
 
@@ -144,9 +138,9 @@ client:on("messageCreate", function(message)
           memberInfo[user.id]["karma"] = memberInfo[user.id]["karma"] + 1
         end
       end
-      files.memberInfo:saveFromTable(memberInfo)
       message.channel:sendMessage(messageToSend)
     end
+    files.memberInfo:saveFromTable(memberInfo)
   end
 end)
 
