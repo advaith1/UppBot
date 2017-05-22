@@ -48,9 +48,9 @@ function karma(message, args)
     name = message.author.name
     karma = memberInfo[message.author.id]["karma"]
   elseif #users == 1 then
-    doublecheckmemberinfo(users[0])
-    name = users[0].name
-    karma = memberInfo[users[0].id]["karma"]
+    doublecheckmemberinfo(users[1])
+    name = users[1].name
+    karma = memberInfo[users[1].id]["karma"]
   end
   message.channel:sendMessage(string.format("**%s** has **%d** karma.", name, karma))
 end

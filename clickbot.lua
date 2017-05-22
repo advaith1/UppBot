@@ -138,9 +138,9 @@ client:on("messageCreate", function(message)
 
     if #users > 0 then
       local messageToSend = ""
-      for user in pairs(users) do
+      for i, user in pairs(users) do
         if message.author.id ~= user.id and not user.bot then
-          messageToSend = messageToSend + string.format("**%s** has given thanks to **%s**\n", message.author.name, user.name)
+          messageToSend = messageToSend .. string.format("**%s** has given thanks to **%s**\n", message.author.name, user.name)
           memberInfo[user.id]["karma"] = memberInfo[user.id]["karma"] + 1
         end
       end
