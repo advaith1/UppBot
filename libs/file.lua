@@ -42,6 +42,7 @@ end
 function file.saveFromTable(f, t, path)
   f.content = table.tostring(t)
   f:save(path)
+  return f:toTable()
 end
 
 function file.toTable(f)
