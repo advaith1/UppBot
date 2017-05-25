@@ -1,14 +1,5 @@
 local botConfig = {}
 
-local file = require("../libs/file.lua")
-
--- Files
-local files = {
-  database = file.load("./UppBot/data/database.txt")
-}
--- File Tables
-local database = files.database:toTable()
-
 --[[
   Permissions:
     Check permissions of a member, varies in different servers. Member's roles and channel can change its permissions.
@@ -29,9 +20,11 @@ local database = files.database:toTable()
 
 ]]
 
-function botConfig.globalCheck(args)
-  database = files.database.load("./UppBot/data/database.txt"):toTable()
-  local message = args[1]
+function botConfig.globalCheck(pack)
+  local message = pack.message
+  local files = pack.files
+  local database = files.database.table
+  if message.member == nil then return end
   if message.guild == nil then return end
   local dataGuild = database[message.guild.id]
   local permissions = {}
@@ -52,7 +45,6 @@ function botConfig.globalCheck(args)
     save = true
   end
   if save then
-    files.database:saveFromTable(database)
     message.channel:sendMessage("This server doesn't have permission roles set up, making temporary admin role (This appears first setup)".."\n".."Anyone with "..adminRole.mentionString.." will have Admin permissions. All permissions can be changed by Admins.".."\n".."The Owner of the server has all permissions.")
   end
   if message.member == message.guild.owner then return dataGuild.permissions end
@@ -91,8 +83,7 @@ function botConfig.globalCheck(args)
   return permissions
 end
 
-function botConfig.getPerms(member)
-  database = files.database.load("./UppBot/data/database.txt"):toTable()
+function botConfig.getPerms(member, database)
   local permissions = {}
   local dataGuild = database[member.guild.id]
   if member == member.guild.owner then return dataGuild.permissions end
@@ -124,8 +115,7 @@ function botConfig.getPerms(member)
   return permissions
 end
 
-function botConfig.getRolePerms(role)
-  database = files.database.load("./UppBot/data/database.txt"):toTable()
+function botConfig.getRolePerms(role, database)
   local permissions = {}
   local dataGuild = database[role.guild.id]
   for permName, perm in pairs(dataGuild.permissions) do
@@ -139,8 +129,7 @@ function botConfig.getRolePerms(role)
   return permissions
 end
 
-function botConfig.getChannelPerms(channel)
-  database = files.database.load("./UppBot/data/database.txt"):toTable()
+function botConfig.getChannelPerms(channel, database)
   local permissions = {}
   local dataGuild = database[channel.guild.id]
   for permName, perm in pairs(dataGuild.permissions) do

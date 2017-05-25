@@ -1,21 +1,24 @@
 local cmd = {}
 
-local file = require("../libs/file.lua")
-
--- Files
-local files = {
-  config = file.load("./UppBot/data/config.txt")
-}
-
-function cmd.globalCheck(args)
-  local message = args[1]
-  files.config = file.load("./UppBot/data/config.txt")
-  local config = files.config:toTable()
+function cmd.globalCheck(pack)
+  local message = pack.message
+  local files = pack.files
+  local config = files.config.table
   local command = {}
+  if message.content == nil then return command end
   for i, v in pairs(config.prefixes) do
-    if v == message.cleanContent:sub(1, #v) then
-      command.name = message.cleanContent:sub(#v+1, message.cleanContent:find("%s")-1)
-      break
+    if v == message.content:sub(1, #v) then
+      local space = message.content:find("%s")
+      if space then
+        command.name = message.content:sub(#v+1, space-1)
+        command.argContent = message.content:sub(space+1):trim()
+        command.spaces = command.argContent:split(" ")
+        command.list = command.argContent:split(", ")
+        break
+      else
+        command.name = message.content:sub(#v+1)
+        break
+      end
     end
   end
   return command
