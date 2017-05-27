@@ -26,9 +26,8 @@ if files.config.table == nil then
     token="Insert your bot token here"
   }
   files.config:saveFromTable()
+  print("A new Config file has been created in UppBot/data/config.txt, please change the token to your own and restart this.")
 end
-
-print("A new Config file has been created in UppBot/data/config.txt, please change the token to your own and restart this.")
 
 print("Version: "..config.version)
 print("Checking updates...")
@@ -40,7 +39,10 @@ function init4() --Running
 end
 
 function init3() --Updating
-  print("Updating not yet implemented, skipping for now")
+  local handle = io.popen("git clone https://github.com/Uppernate/UppBot.git")
+  local result = handle:read("*a")
+  handle:close()
+  p(result)
   init4() --I don't know how to make updating for now, welp
 end
 
