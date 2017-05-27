@@ -7,12 +7,8 @@ print("Starting up...")
 
 --Files
 local files = {
-  config = file.load("./UppBot/data/config.txt")
+  config = file.loadWithTable("./UppBot/data/config.txt")
 }
-
---File Tables
-
-local config = files.config:toTable()
 
 if files.config.table == nil then
   files.config.table = {
@@ -30,6 +26,9 @@ if files.config.table == nil then
   print("A new Config file has been created in UppBot/data/config.txt, please change the token to your own and restart this.")
   return
 end
+
+--File Tables
+local config = files.config:toTable()
 
 print("Version: "..config.version)
 print("Checking updates...")
