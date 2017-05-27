@@ -9,6 +9,7 @@ local files = {
   database = file.loadWithTable("./UppBot/data/database.txt"),
   config = file.loadWithTable("./UppBot/data/config.txt")
 }
+if files.database.table == nil then files.database.table = {} end -- New database is made if one doesn't exist
 
 -- Addons:
 local addons = { } -- Addons with _ at the beginning of their name are global addons and they cannot be added or removed from a server.
