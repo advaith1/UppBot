@@ -1,1 +1,0 @@
-{["252131072404488192"]={name="Upps Test Server",addons={}},["190552103809187842"]={addons={},name="Click Converse",permissions={admin={roleIDs={"316736287337873409"},channelIDs={},memberIDs={}}}}}
