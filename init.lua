@@ -28,6 +28,7 @@ if files.config.table == nil then
   }
   files.config:saveFromTable()
   print("A new Config file has been created in UppBot/data/config.txt, please change the token to your own and restart this.")
+  return
 end
 
 print("Version: "..config.version)
@@ -43,7 +44,7 @@ function init3() --Updating
   local handle = io.popen("cd " .. config.absoluteDir .. " \n git pull")
   local result = handle:read("*a")
   handle:close()
-  p(result)
+  print(result)
   init4() --I don't know how to make updating for now, welp
 end
 
