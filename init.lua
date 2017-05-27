@@ -22,6 +22,7 @@ if files.config.table == nil then
       "."
     },
     toRun="bot",
+    absoluteDir="/home/pi/Luvit/UppBot/",
     update="true",
     token="Insert your bot token here"
   }
@@ -39,7 +40,7 @@ function init4() --Running
 end
 
 function init3() --Updating
-  local handle = io.popen("git clone https://github.com/Uppernate/UppBot.git")
+  local handle = io.popen("cd " .. config.absoluteDir .. " \n git pull")
   local result = handle:read("*a")
   handle:close()
   p(result)
