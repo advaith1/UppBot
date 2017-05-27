@@ -30,7 +30,7 @@ function botConfig.globalCheck(pack)
   local permissions = {}
   local save = false
   if not dataGuild.permissions then dataGuild.permissions = {} save = true end
-  if not dataGuild.permissions.admin then dataGuild.permissions.admin = {roleIDs={}, memberIDs={}, channelIDs={}} save = true end
+  if not dataGuild.permissions.admin then dataGuild.permissions.admin = {roleIDs = {}, memberIDs = {}, channelIDs = {}, desc = "Used to configure the bot and bypass other permissions."} save = true end
   local adminRole
   for i, v in pairs(dataGuild.permissions.admin.roleIDs) do
     local role = message.guild:getRole(v)
@@ -41,11 +41,15 @@ function botConfig.globalCheck(pack)
   end
   if not adminRole then
     adminRole = message.guild:getRole("name", "Click Bot Admin Temp") or message.guild:createRole("Click Bot Admin Temp")
-    table.insert(dataGuild.permissions.admin.roleIDs, adminRole.id)
-    save = true
+    if adminRole then
+      table.insert(dataGuild.permissions.admin.roleIDs, adminRole.id)
+      save = true
+    end
   end
   if save then
-    message.channel:sendMessage("This server doesn't have permission roles set up, making temporary admin role (This appears first setup)".."\n".."Anyone with "..adminRole.mentionString.." will have Admin permissions. All permissions can be changed by Admins.".."\n".."The Owner of the server has all permissions.")
+    if adminRole then
+      message.channel:sendMessage("This server doesn't have permission roles set up, making temporary admin role (This appears first setup)".."\n".."Anyone with "..adminRole.mentionString.." will have Admin permissions. All permissions can be changed by Admins.".."\n".."The Owner of the server has all permissions.")
+    end
   end
   if message.member == message.guild.owner then return dataGuild.permissions end
   for permName, perm in pairs(dataGuild.permissions) do

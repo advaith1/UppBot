@@ -1,1 +1,10 @@
-{prefixes={"."},versionURL="https://cdn.rawgit.com/Uppernate/UppBot/master/data/version.txt",version="0",voteBanExpireTime=900,update="true-nonotify",toRun="bot",token="MjUyNDg3OTE1NTM4NjEyMjI0.DAD0Jw.hNBz9E3_fo9mE-j7RHkVwSWnpS0",minVotebanCount=4}
+{
+versionURL="https://cdn.rawgit.com/Uppernate/UppBot/master/data/version.txt",
+version="0",
+prefixes={
+	"."
+	},
+toRun="bot",
+update="true",
+token="USE YOUR OWN TOKEN M8"
+}
