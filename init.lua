@@ -11,7 +11,24 @@ local files = {
 }
 
 --File Tables
+
 local config = files.config:toTable()
+
+if files.config.table == nil then
+  files.config.table = {
+    versionURL="https://cdn.rawgit.com/Uppernate/UppBot/master/data/version.txt",
+    version="0",
+    prefixes={
+      "."
+    },
+    toRun="bot",
+    update="true",
+    token="Insert your bot token here"
+  }
+  files.config:saveFromTable()
+end
+
+print("A new Config file has been created in UppBot/data/config.txt, please change the token to your own and restart this.")
 
 print("Version: "..config.version)
 print("Checking updates...")
