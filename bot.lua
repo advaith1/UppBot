@@ -146,8 +146,8 @@ for eventName, eventArgs in pairs(events) do
     for i, v in pairs(args) do
       pack[eventArgs[i]] = v
     end
-    for addonName, addon in pairs(addons) do
-      addon.load(addon, "event_" .. eventName, pack)
+    for addonName, addonOBJ in pairs(addons) do
+      addon.load(addonOBJ, "event_" .. eventName, pack)
     end
   end)
 end
