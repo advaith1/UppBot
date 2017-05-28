@@ -1,4 +1,6 @@
 local botConfig = {}
+botConfig.name = "permissions"
+botConfig.desc = "Main permissions - Global addon"
 
 --[[
   Permissions:
@@ -51,6 +53,47 @@ function botConfig.globalCheck(pack)
       message.channel:sendMessage("This server doesn't have permission roles set up, making temporary admin role (This appears first setup)".."\n".."Anyone with "..adminRole.mentionString.." will have Admin permissions. All permissions can be changed by Admins.".."\n".."The Owner of the server has all permissions.")
     end
   end
+  if message.member == message.guild.owner then return dataGuild.permissions end
+  for permName, perm in pairs(dataGuild.permissions) do
+    local has = false
+    -- Checking individual members
+    for _, memberID in pairs(perm.memberIDs) do
+      if memberID == message.member.id then
+        has = true
+        break
+      end
+    end
+    -- Checking member's roles
+    for _, roleID in pairs(perm.roleIDs) do
+      local localbreak = false
+      if localbreak then break end
+      for role in message.member.roles do
+        if role.id == roleID then
+          has = true
+          localbreak = true
+          break
+        end
+      end
+    end
+    -- Checking channel used to send message
+    for _, channelID in pairs(perm.channelIDs) do
+      if channelID == message.channel.id then
+        has = true
+        break
+      end
+    end
+    if has then
+      permissions[permName] = perm
+    end
+  end
+  return permissions
+end
+
+function botConfig.getMessagePerms(message, database)
+  if message.member == nil then return end
+  if message.guild == nil then return end
+  local dataGuild = database[message.guild.id]
+  local permissions = {}
   if message.member == message.guild.owner then return dataGuild.permissions end
   for permName, perm in pairs(dataGuild.permissions) do
     local has = false
@@ -147,6 +190,13 @@ function botConfig.getChannelPerms(channel, database)
   return permissions
 end
 
-botConfig.name = "permissions"
+function botConfig.returner()
+  local re = {}
+  re.getChannelPerms = botConfig.getChannelPerms
+  re.getRolePerms = botConfig.getRolePerms
+  re.getMemberPerms = botConfig.getPerms
+  re.getMessagePerms = botConfig.getMessagePerms
+  return re
+end
 
 return botConfig

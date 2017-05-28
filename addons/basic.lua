@@ -1,4 +1,6 @@
 local basic = {}
+basic.name = "basic commands"
+basic.desc = "Example addon - has ping command"
 
 function basic.event_added(pack)
   local message = pack.message
@@ -18,11 +20,9 @@ function basic.event_removed(pack)
   end
 end
 
-function basic.ping(pack)
+function basic.cmd_ping(pack)
   local message = pack.message
   message.channel:sendMessage(message.author.mentionString.." pong!")
 end
-
-basic.name = "basic commands"
 
 return basic

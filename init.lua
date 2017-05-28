@@ -1,5 +1,4 @@
 --Libs and stuff
-local http = require("./libs/get.lua")
 local file = require("./libs/file.lua")
 local timer = require("timer")
 

@@ -1,4 +1,6 @@
 local cmd = {}
+cmd.name = "commands"
+cmd.desc = "Main commands - Global addon"
 
 function cmd.globalCheck(pack)
   local message = pack.message
@@ -23,7 +25,5 @@ function cmd.globalCheck(pack)
   end
   return command
 end
-
-cmd.name = "commands"
 
 return cmd

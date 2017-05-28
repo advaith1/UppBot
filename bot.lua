@@ -16,7 +16,7 @@ local addons = { } -- Addons with _ at the beginning of their name are global ad
 addons._guildSetup = addon.new("guildSetup")
 addons._commands = addon.new("commands")
 addons._permissions = addon.new("permissions")
-addons.config = addon.new("config")
+addons._config = addon.new("config")
 addons.basic = addon.new("basic")
 addons.rolesStay = addon.new("rolesStay")
 
@@ -26,101 +26,14 @@ function get(p)
 end
 
 -- BOT EVENTS
-
 client:on("ready", function()
   print("Initialising...")
   for guild in client.guilds do
     addon.load(addons._guildSetup, "main", {client=client, files=files, guild=guild})
-    local dataGuild = files.database.table[guild.id]
-    local pack = {client=client, files=files, guild=guild, addons=addons, get=get}
-    for name, guildAddon in pairs(dataGuild.addons) do
-      pack.addon = guildAddon
-      addon.load(addons[name], "event_ready", pack)
-    end
   end
   files.database:saveFromTable()
   print("Initialising finished.")
 end)
-
-client:on("resumed", function(shardID)
-
-end)
-
-client:on("userUpdate", function(user)
-
-end)
-
--- GUILD EVENTS
-
-client:on("guildAvailable", function(guild)
-
-end)
-
-client:on("guildCreateUnavailable", function(guild)
-
-end)
-
-client:on("guildCreate", function(guild)
-
-end)
-
-client:on("guildUpdate", function(guild)
-
-end)
-
-client:on("guildUnavailable", function(guild)
-
-end)
-
-client:on("guildDelete", function(guild)
-
-end)
-
-client:on("emojisUpdate", function(guild)
-
-end)
-
--- CHANNEL EVENTS
-
-client:on("channelCreate", function(channel)
-
-end)
-
-client:on("channelUpdate", function(channel)
-
-end)
-
-client:on("channelDelete", function(channel)
-
-end)
-
-client:on("typingStart", function(user, channel, timestamp)
-
-end)
-
-client:on("typingStartUncached", function(data)
-
-end)
-
-client:on("voiceChannelJoin", function(member, channel)
-
-end)
-
-client:on("voiceChannelLeave", function(member, channel)
-
-end)
-
--- USER EVENTS
-
-client:on("userBan", function(user, guild)
-
-end)
-
-client:on("userUnban", function(user, guild)
-
-end)
-
--- MEMBER EVENTS
 
 client:on("memberJoin", function(member)
   local pack = {client=client, member=member, files=files, addons=addons, get=get}
@@ -140,40 +53,6 @@ client:on("memberLeave", function(member)
   end
   files.database:saveFromTable()
   files.config:saveFromTable()
-end)
-
-client:on("memberUpdate", function(member)
-
-end)
-
-client:on("presenceUpdate", function(member)
-
-end)
-
-client:on("voiceConnect", function(member, mute, deaf)
-
-end)
-
-client:on("voiceDisconnect", function(member, mute, deaf)
-
-end)
-
-client:on("voiceUpdate", function(member, mute, deaf)
-
-end)
-
--- ROLE EVENTS
-
-client:on("roleCreate", function(role)
-
-end)
-
-client:on("roleUpdate", function(role)
-
-end)
-
-client:on("roleDelete", function(role)
-
 end)
 
 -- MESSAGE EVENTS
@@ -200,7 +79,7 @@ client:on("messageCreate", function(message)
       local location = dataGuild.commands[command.name]
       if location and addons[location.addon] and dataGuild.addons[location.addon] then
         local pack = {client=client, message=message, permissions=permissions, command=command, files=files, addon=dataGuild.addons[location.addon], addons=addons, get=get}
-        addon.load(addons[location.addon], location.name, pack)
+        addon.load(addons[location.addon], "cmd_" .. location.name, pack)
       end
     end
 
@@ -218,34 +97,59 @@ client:on("messageCreate", function(message)
   end
 end)
 
-client:on("messageUpdate", function(message)
+-- Automated events:
 
-end)
+local events = {
+  "ready" = {},
+  "resumed" = {"shardID"},
+  "userUpdate" = {"user"},
+  "guildAvailable" = {"guild"},
+  "guildCreateUnavailable" = {"guild"},
+  "guildCreate" = {"guild"},
+  "guildUpdate" = {"guild"},
+  "guildUnavailable" = {"guild"},
+  "guildDelete" = {"guild"},
+  "emojisUpdate" = {"guild"},
+  "channelCreate" = {"channel"},
+  "channelUpdate" = {"channel"},
+  "channelDelete" = {"channel"},
+  "typingStart" = {"user", "channel", "timestamp"},
+  "typingStartUncached" = {"data"},
+  "voiceChannelJoin" = {"member", "channel"},
+  "voiceChannelLeave" = {"member", "channel"},
+  "userBan" = {"user", "guild"},
+  "userUnban" = {"user", "guild"},
+  "memberJoin" = {"member"},
+  "memberLeave" = {"member"},
+  "memberUpdate" = {"member"},
+  "presenceUpdate" = {"member"},
+  "voiceConnect" = {"member", "mute", "deaf"},
+  "voiceDisconnect" = {"member", "mute", "deaf"},
+  "voiceUpdate" = {"member", "mute", "deaf"},
+  "roleCreate" = {"role"},
+  "roleUpdate" = {"role"},
+  "roleDelete" = {"role"},
+  "messageCreate" = {"message"},
+  "messageUpdate" = {"message"},
+  "messageUpdateUncached" = {"channel", "messageID"},
+  "messageDelete" = {"message"},
+  "reactionAdd" = {"reaction", "user"},
+  "reactionAddUncached" = {"data"},
+  "reactionRemove" = {"reaction", "user"},
+  "reactionRemoveUncached" = {"data"}
+}
 
-client:on("messageUpdateUncached", function(channel, messageID)
-
-end)
-
-client:on("messageDelete", function(message)
-
-end)
-
--- REACTION EVENTS
-
-client:on("reactionAdd", function(reaction, user)
-
-end)
-
-client:on("reactionAddUncached", function(data)
-
-end)
-
-client:on("reactionRemove", function(reaction, user)
-
-end)
-
-client:on("reactionAddUncached", function(data)
-
-end)
+for eventName, eventArgs in pairs(events) do
+  client:on(eventName, function(...)
+    local args = {...}
+    local pack = {client=client, files=files, addons=addons, get=get}
+    for i, v in pairs(args) do
+      pack[eventArgs[i]] = v
+    end
+    for addonName, addon in pairs(addons) do
+      addon.load(addon, "event_" .. eventName, pack)
+    end
+  end)
+end
 
 client:run(files.config.table.token)

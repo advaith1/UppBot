@@ -1,4 +1,6 @@
 local serverConfig = {}
+serverConfig.name = "config"
+serverConfig.desc = "Master addon (DO NOT REMOVE)"
 
 function changePermissions(message, command, files)
   local dataGuild = files.database.table[message.guild.id]
@@ -57,36 +59,39 @@ end
 function changeAddons(message, command, files, addons, get)
   local dataGuild = files.database.table[message.guild.id]
   if command.spaces[2] == "add" then
-    if addons[command.spaces[3]] then
-      dataGuild.addons[command.spaces[3]] = {}
-      message.channel:sendMessage("'" .. command.spaces[3] .. "' addon has been added.")
-      get("addon").load(addons[command.spaces[3]], "event_added", {message=message, command=command, files=files, addons=addons, get=get})
-      files.database:saveFromTable()
+    if command.spaces[3]:sub(1, 2) ~= "_" then
+      if addons[command.spaces[3]] then
+        dataGuild.addons[command.spaces[3]] = {}
+        message.channel:sendMessage("'" .. command.spaces[3] .. "' addon has been added.")
+        get("addon").load(addons[command.spaces[3]], "event_added", {message=message, command=command, files=files, addons=addons, get=get})
+        files.database:saveFromTable()
+      end
     end
   end
   if command.spaces[2] == "remove" then
-    if addons[command.spaces[3]] then
-      get("addon").load(addons[command.spaces[3]], "event_removed", {message=message, command=command, files=files, addons=addons, get=get})
-      dataGuild.addons[command.spaces[3]] = nil
-      message.channel:sendMessage("'" .. command.spaces[3] .. "' addon has been removed.")
-      files.database:saveFromTable()
+    if command.spaces[3]:sub(1, 2) ~= "_" then
+      if addons[command.spaces[3]] then
+        get("addon").load(addons[command.spaces[3]], "event_removed", {message=message, command=command, files=files, addons=addons, get=get})
+        dataGuild.addons[command.spaces[3]] = nil
+        message.channel:sendMessage("'" .. command.spaces[3] .. "' addon has been removed.")
+        files.database:saveFromTable()
+      end
     end
   end
   if not command.spaces[2] then
     local msg = {}
     msg.embed = {}
-    msg.embed.fields = {}
+    msg.embed.description = ""
     msg.embed.title = "Server Addons: "
-    local count = 0
     for i, v in pairs(dataGuild.addons) do
-      count = count + 1
-      table.insert(msg.embed.fields, {name=tostring(count)..": ", value=i, inline=true})
+      local addonDesc = " - " .. addons[i].desc or ""
+      msg.embed.description = msg.embed.description .. i .. addonDesc
     end
     message.channel:sendMessage(msg)
   end
 end
 
-function serverConfig.main(pack)
+function serverConfig.cmd_main(pack)
   local client = pack.client
   local message = pack.message
   local permissions = pack.permissions
@@ -98,7 +103,5 @@ function serverConfig.main(pack)
   if command.spaces[1] == "permissions" then changePermissions(message, command, files, get) end
   if command.spaces[1] == "addons" then changeAddons(message, command, files, addons, get) end
 end
-
-serverConfig.name = "config"
 
 return serverConfig

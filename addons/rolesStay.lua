@@ -1,5 +1,6 @@
 local rolesStay = {}
 rolesStay.name = "rolesStay"
+rolesStay.desc = "Gives back users' roles when they join back the server"
 
 function rolesStay.event_memberJoin(pack)
   local files = pack.files
