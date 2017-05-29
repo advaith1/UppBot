@@ -35,26 +35,6 @@ client:on("ready", function()
   print("Initialising finished.")
 end)
 
-client:on("memberJoin", function(member)
-  local pack = {client=client, member=member, files=files, addons=addons, get=get}
-  for name, guildAddon in pairs(files.database.table[member.guild.id].addons) do
-    pack.addon = guildAddon
-    addon.load(addons[name], "event_memberJoin", pack)
-  end
-  files.database:saveFromTable()
-  files.config:saveFromTable()
-end)
-
-client:on("memberLeave", function(member)
-  local pack = {client=client, member=member, files=files, addons=addons, get=get}
-  for name, guildAddon in pairs(files.database.table[member.guild.id].addons) do
-    pack.addon = guildAddon
-    addon.load(addons[name], "event_memberLeave", pack)
-  end
-  files.database:saveFromTable()
-  files.config:saveFromTable()
-end)
-
 -- MESSAGE EVENTS
 
 client:on("messageCreate", function(message)
@@ -82,16 +62,6 @@ client:on("messageCreate", function(message)
         addon.load(addons[location.addon], "cmd_" .. location.name, pack)
       end
     end
-
-    -- Executing addons' messageCreate event
-    if dataGuild then
-      local pack = {client=client, message=message, permissions=permissions, files=files, addons=addons, get=get}
-      for name, guildAddon in pairs(dataGuild.addons) do
-        pack.addon = guildAddon
-        addon.load(addons[name], "event_messageCreate", pack)
-      end
-    end
-
     files.database:saveFromTable()
     files.config:saveFromTable()
   end
@@ -142,13 +112,16 @@ local events = {
 for eventName, eventArgs in pairs(events) do
   client:on(eventName, function(...)
     local args = {...}
-    local pack = {client=client, files=files, addons=addons, get=get}
+    local perms = addon.load(addons._permissions, "returner", {})
+    local pack = {client=client, files=files, addons=addons, get=get, permissions=perms}
     for i, v in pairs(args) do
       pack[eventArgs[i]] = v
     end
     for addonName, addonOBJ in pairs(addons) do
       addon.load(addonOBJ, "event_" .. eventName, pack)
     end
+    files.database:saveFromTable()
+    files.config:saveFromTable()
   end)
 end
 
