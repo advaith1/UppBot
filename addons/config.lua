@@ -85,7 +85,7 @@ function changeAddons(message, command, files, addons, get)
     msg.embed.title = "Server Addons: "
     for i, v in pairs(dataGuild.addons) do
       local addonDesc = " - " .. addons[i].desc or ""
-      msg.embed.description = msg.embed.description .. i .. addonDesc
+      msg.embed.description = msg.embed.description .. i .. addonDesc .. "\n"
     end
     message.channel:sendMessage(msg)
   end

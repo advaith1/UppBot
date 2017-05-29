@@ -11,6 +11,8 @@ local files = {
 }
 if files.database.table == nil then files.database.table = {} end -- New database is made if one doesn't exist
 
+local master = "143784331339497473" -- Master's ID
+
 -- Addons:
 local addons = { } -- Addons with _ at the beginning of their name are global addons and they cannot be added or removed from a server.
 addons._guildSetup = addon.new("guildSetup")
