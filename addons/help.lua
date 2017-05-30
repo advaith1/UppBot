@@ -23,6 +23,7 @@ end
 function help.cmd_help(pack)
   local message = pack.message
   local addons = pack.addons
+  local files = pack.files
   local dataGuild = files.database.table[message.guild.id]
   local guildCommands = dataGuild.commands
   local desc = ""
