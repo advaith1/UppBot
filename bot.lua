@@ -21,6 +21,7 @@ addons._permissions = addon.new("permissions")
 addons._config = addon.new("config")
 addons.basic = addon.new("basic")
 addons.rolesStay = addon.new("rolesStay")
+addons.help = addon.new("help")
 
 -- For fetching stuff in here, just in case:
 function get(p)
