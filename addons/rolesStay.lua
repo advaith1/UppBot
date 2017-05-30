@@ -5,7 +5,9 @@ rolesStay.desc = "Gives back users' roles when they join back the server"
 function rolesStay.event_memberJoin(pack)
   local files = pack.files
   local member = pack.member
+  p("Debug 1")
   if files.database.table[member.guild.id].addons.roleStay == nil then return end
+  p("Debug 2")
   local data = files.database.table[member.guild.id].addons.rolesStay
   if data[member.id] then
     for i, v in pairs(data[member.id]) do
@@ -17,7 +19,9 @@ end
 function rolesStay.event_memberLeave(pack)
   local files = pack.files
   local member = pack.member
+  p("Debug 3")
   if files.database.table[member.guild.id].addons.roleStay == nil then return end
+  p("Debug 4")
   local data = files.database.table[member.guild.id].addons.rolesStay
   data[member.id] = {}
   for role in member.roles do
