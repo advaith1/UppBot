@@ -22,7 +22,7 @@ end
 
 function basic.cmd_extlist(pack)
   local message = pack.message
-  message.channel:sendMessage("Darkwire Extension List: \\https://dark-wire.com/store/extlist.php\nOfficial Clickteam Extension Manager List: \\https://www.clickteam.com/cem\nClickWiki Extension List: \\http://clickwiki.net/wiki/Extensions#Extension_List")
+  message.channel:sendMessage("Darkwire Extension List: \https://dark-wire.com/store/extlist.php\nOfficial Clickteam Extension Manager List: \https://www.clickteam.com/cem\nClickWiki Extension List: \http://clickwiki.net/wiki/Extensions#Extension_List")
 end
 
 return basic
