@@ -11,17 +11,16 @@ local files = {
 }
 if files.database.table == nil then files.database.table = {} end -- New database is made if one doesn't exist
 
-local master = "143784331339497473" -- Master's ID
-
 -- Addons:
 local addons = { } -- Addons with _ at the beginning of their name are global addons and they cannot be added or removed from a server.
 addons._guildSetup = addon.new("guildSetup")
 addons._commands = addon.new("commands")
 addons._permissions = addon.new("permissions")
 addons._config = addon.new("config")
-addons.basic = addon.new("basic")
+addons.ping = addon.new("basic")
 addons.rolesStay = addon.new("rolesStay")
 addons.help = addon.new("help")
+addons.fusionLinks = addon.new("fusionLinks")
 
 -- For fetching stuff in here, just in case:
 function get(p)
