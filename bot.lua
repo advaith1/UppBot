@@ -21,6 +21,7 @@ addons.ping = addon.new("basic")
 addons.rolesStay = addon.new("rolesStay")
 addons.help = addon.new("help")
 addons.fusionLinks = addon.new("fusionLinks")
+addons.botLog = addon.new("botLog")
 
 -- For fetching stuff in here, just in case:
 function get(p)
