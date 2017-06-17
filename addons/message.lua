@@ -34,6 +34,7 @@ function basic.cmd_main(pack)
   print("CONTENT")
   local func = assert(loadstring(CONTENT))
   message.channel:sendMessage(func())
+  message:delete()
 end
 
 return basic
