@@ -31,7 +31,8 @@ function basic.cmd_main(pack)
   local length = string.len(".msg")+1
   local CONTENT = message.content:sub()
   CONTENT = "return" .. CONTENT
-  local func = loadstring(CONTENT)
+  print("CONTENT")
+  local func = assert(loadstring(CONTENT))
   message.channel:sendMessage(func())
 end
 
