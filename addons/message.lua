@@ -27,12 +27,12 @@ end
 function basic.cmd_main(pack)
   local message = pack.message
   local perms = pack.permissions
-  if perms.msg_sendAsBot then
-    local CONTENT = message.content:sub(".msg":len()+1)
-    CONTENT = "return" .. CONTENT
-    local func = loadstring(CONTENT)
-    message.channel:sendMessage(func())
-  end
+  if not perms.msg_sendAsBot then return end
+  local length = string.len(".msg")+1
+  local CONTENT = message.content:sub()
+  CONTENT = "return" .. CONTENT
+  local func = loadstring(CONTENT)
+  message.channel:sendMessage(func())
 end
 
 return basic
