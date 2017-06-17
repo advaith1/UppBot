@@ -4,6 +4,8 @@ basic.desc = "Logs edited and removed messages."
 
 function basic.event_messageUpdate(pack)
   local message = pack.message
+  local client = pack.client
+  if message.author.id == client.id then return end
   local files = pack.files
   local dataGuild = files.database.table[message.guild.id]
   if message.member == nil then return end
@@ -13,6 +15,8 @@ end
 
 function basic.event_messageDelete(pack)
   local message = pack.message
+  local client = pack.client
+  if message.author.id == client.id then return end
   local files = pack.files
   local dataGuild = files.database.table[message.guild.id]
   if message.member == nil then return end
