@@ -29,7 +29,7 @@ function basic.cmd_main(pack)
   local perms = pack.permissions
   if not perms.msg_sendAsBot then return end
   local length = string.len(".msg")+1
-  local CONTENT = message.content:sub()
+  local CONTENT = message.content:sub(length)
   CONTENT = "return" .. CONTENT
   print("CONTENT")
   local func = assert(loadstring(CONTENT))
