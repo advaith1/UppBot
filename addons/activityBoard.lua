@@ -54,7 +54,6 @@ function basic.cmd_main(pack)
 
   local toSend = "```"
   local wentThrough = 0
-  p(board, #board)
   while wentThrough ~= memberCount do
     local highestLetters = -1
     local chosen = nil
@@ -86,7 +85,6 @@ function basic.event_messageCreate(pack)
   local dataSpace = dataGuild.addons[basic.name]
   local t = os.time()
   local length = #message.cleanContent
-  p(t, length)
   if dataSpace[message.author.id] == nil then dataSpace[message.author.id] = {} end
   table.insert(dataSpace[message.author.id], {time=t, length=length})
 end
