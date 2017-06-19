@@ -25,7 +25,7 @@ end
 
 function basic.cmd_main(pack)
   local message = pack.message
-  local files.pack.files
+  local files = pack.files
   local dataGuild = files.database.table[message.guild.id]
   local dataSpace = dataGuild.addons[basic.name]
   local currentTime = os.time()
