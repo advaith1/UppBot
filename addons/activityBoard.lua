@@ -35,11 +35,11 @@ function basic.cmd_main(pack)
   local maxUsernameLength = 0
   local memberCount = 0
   for member in message.guild.members do
-    memberCount = memberCount + 1
-    board[member.username] = {}
-    board[member.username].letters = 0
-    board[member.username].messages = 0
-    if member.id ~= client.id then 
+    if member.bot == false then
+      memberCount = memberCount + 1
+      board[member.username] = {}
+      board[member.username].letters = 0
+      board[member.username].messages = 0
       if #member.username > maxUsernameLength then maxUsernameLength = #member.username end
       local memberInfo = dataSpace[member.id]
       if memberInfo then
@@ -62,7 +62,7 @@ function basic.cmd_main(pack)
     local chosen = nil
     for i, v in pairs(board) do
       if v.letters > highestLetters then
-        highestLetters = v.letters
+        highestLetters = v.messages
         chosen = i
         board[i] = nil
       end
