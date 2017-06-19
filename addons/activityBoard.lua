@@ -50,6 +50,7 @@ function basic.cmd_main(pack)
         end
       end
     end
+    p(member.username, board[member.username].letters)
   end
 
   local toSend = "```"
