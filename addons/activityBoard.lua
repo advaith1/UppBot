@@ -28,7 +28,7 @@ function basic.cmd_main(pack)
   local member = message.member
   local files = pack.files
   local dataGuild = files.database.table[message.guild.id]
-  local dataSpace = dataGuild.addons[basic.name]
+  local dataSpace = dataGuild.addons.activityBoard
   local currentTime = os.time()
   local board = {}
   local maxUsernameLength = 0
