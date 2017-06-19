@@ -34,10 +34,9 @@ function basic.cmd_main(pack)
   local board = {}
   local maxUsernameLength = 0
   local memberCount = 0
-  for member in message.guild.members do
+  for id, memberInfo in pairs(dataSpace) do
+    local member = message.guild:getMember(tostring(id))
     if member.bot == false then
-      local memberInfo = dataSpace[member.id]
-      if memberInfo then
         memberCount = memberCount + 1
         board[member.username] = {}
         board[member.username].letters = 0
@@ -51,7 +50,6 @@ function basic.cmd_main(pack)
             board[member.username].messages = board[member.username].messages + 1
           end
         end
-      end
     end
   end
 
