@@ -75,7 +75,7 @@ end
 
 function basic.event_messageCreate(pack)
   local message = pack.message
-  local files.pack.files
+  local files = pack.files
   local dataGuild = files.database.table[message.guild.id]
   if not dataGuild.addons[basic.name] then return end
   if dataGuild.addons[basic.name] == nil then dataGuild.addons[basic.name] = {} end
