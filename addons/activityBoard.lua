@@ -40,12 +40,14 @@ function basic.cmd_main(pack)
     board[member.username].messages = 0
     if #member.username > maxUsernameLength then maxUsernameLength = #member.username end
     local memberInfo = dataSpace[member.id]
-    for i, v in pairs(memberInfo) do
-      if currentTime - v.time >= 604800 then
-        memberInfo[i] = nil
-      else
-        board[member.username].letters = board[member.username].letters + v.length
-        board[member.username].messages = board[member.username].messages + 1
+    if memberInfo then
+      for i, v in pairs(memberInfo) do
+        if currentTime - v.time >= 604800 then
+          memberInfo[i] = nil
+        else
+          board[member.username].letters = board[member.username].letters + v.length
+          board[member.username].messages = board[member.username].messages + 1
+        end
       end
     end
   end
