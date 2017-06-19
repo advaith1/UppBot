@@ -26,6 +26,7 @@ end
 function basic.cmd_main(pack)
   local message = pack.message
   local member = message.member
+  local client = pack.client
   local files = pack.files
   local dataGuild = files.database.table[message.guild.id]
   local dataSpace = dataGuild.addons.activityBoard
@@ -38,15 +39,17 @@ function basic.cmd_main(pack)
     board[member.username] = {}
     board[member.username].letters = 0
     board[member.username].messages = 0
-    if #member.username > maxUsernameLength then maxUsernameLength = #member.username end
-    local memberInfo = dataSpace[member.id]
-    if memberInfo then
-      for i, v in pairs(memberInfo) do
-        if currentTime - v.time >= 604800 then
-          memberInfo[i] = nil
-        else
-          board[member.username].letters = board[member.username].letters + v.length
-          board[member.username].messages = board[member.username].messages + 1
+    if member.id ~= client.id then 
+      if #member.username > maxUsernameLength then maxUsernameLength = #member.username end
+      local memberInfo = dataSpace[member.id]
+      if memberInfo then
+        for i, v in pairs(memberInfo) do
+          if currentTime - v.time >= 604800 then
+            memberInfo[i] = nil
+          else
+            board[member.username].letters = board[member.username].letters + v.length
+            board[member.username].messages = board[member.username].messages + 1
+          end
         end
       end
     end
