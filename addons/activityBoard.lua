@@ -53,8 +53,6 @@ function basic.cmd_main(pack)
     end
   end
 
-  p(board)
-  p(memberCount)
   local toSend = "```"
   local wentThrough = 0
   while wentThrough ~= memberCount do
