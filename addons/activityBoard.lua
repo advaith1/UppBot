@@ -61,13 +61,13 @@ function basic.cmd_main(pack)
     local highestLetters = -1
     local chosen = nil
     for i, v in pairs(board) do
-      if v.letters > highestLetters then
+      if v.messages > highestLetters then
         highestLetters = v.messages
         chosen = i
-        board[i] = nil
       end
     end
     if chosen then
+      board[chosen] = nil
       wentThrough = wentThrough + 1
       local addTo = string.rep(" ", #tostring(memberCount)-#tostring(wentThrough)) .. wentThrough .. " | " .. chosen .. " " .. string.rep("-", maxUsernameLength-#chosen) .. " " .. highestLetters .. "\n"
       toSend = toSend .. addTo
