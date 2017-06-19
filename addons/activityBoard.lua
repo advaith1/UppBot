@@ -55,7 +55,7 @@ function basic.cmd_main(pack)
   local toSend = "```"
   local wentThrough = 0
   p(board, #board)
-  while #board ~= 0 do
+  while wentThrough ~= memberCount do
     local highestLetters = -1
     local chosen = nil
     for i, v in pairs(board) do
