@@ -50,11 +50,11 @@ function basic.cmd_main(pack)
         end
       end
     end
-    p(member.username, board[member.username].letters)
   end
 
   local toSend = "```"
   local wentThrough = 0
+  p(board, #board)
   while #board ~= 0 do
     local highestLetters = -1
     local chosen = nil
