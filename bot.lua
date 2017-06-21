@@ -22,7 +22,7 @@ addons.rolesStay = addon.new("rolesStay")
 addons.help = addon.new("help")
 addons.fusionLinks = addon.new("fusionLinks")
 addons.botLog = addon.new("botLog")
-addons.message = addon.new("message")
+--addons.message = addon.new("message")
 addons.activityBoard = addon.new("activityBoard")
 
 -- For fetching stuff in here, just in case:
