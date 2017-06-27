@@ -19,6 +19,8 @@ function basic.event_removed(pack)
   local files = pack.files
   local dataGuild = files.database.table[message.guild.id]
   local cmdName = "extlist"
+  if dataGuild.commands[cmdName] and dataGuild.commands[cmdName].addon == "fusionLinks" then
+    dataGuild.commands[cmdName] = nil
   local cmdName = "shaders"
   if dataGuild.commands[cmdName] and dataGuild.commands[cmdName].addon == "fusionLinks" then
     dataGuild.commands[cmdName] = nil
